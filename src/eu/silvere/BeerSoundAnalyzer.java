@@ -23,6 +23,10 @@ public class BeerSoundAnalyzer {
 	 */
 	private static final int SAMPLING_FREQ = 44100;
 	/** 
+	 * The maximum frequency
+	 */
+	private static final int MAX_FREQ = 1000;
+	/** 
 	 * The duration of record
 	 */
 	private static final int RECORD_DURATION = 3;
@@ -54,13 +58,10 @@ public class BeerSoundAnalyzer {
 		int ret ;
 		float maxNorm = 0;
 		float norm;
-		int iMax = 0;
+		float freq = 0;
 		
-		String s = new String();
-		for (int i = 0 ; i < 10 ; i++)
-			s += " " + mRawDataMic[i] ;
-		Log.d("Beer", "Beer " + s);
-		Log.d("Beer", "Beer " + mRawDataMic.length);
+		
+		Log.d("Beer", "Beer " + mRawDataMic.length + " Recording");
 		
 		mRecord.startRecording();
 		ret = mRecord.read(mRawDataMic, 0, mRawDataMic.length);
@@ -70,16 +71,15 @@ public class BeerSoundAnalyzer {
 			mSoundData[i] = mRawDataMic[i];
 		
 		mFFT.realForward(mSoundData);
-		iMax = 0;
-		maxNorm = norm = mSoundData[0];
-		for (int i = 1 ; i < mSoundData.length - 1 ; i++) {
+		maxNorm = norm = 0;
+		for (int i = 2 ; i < (MAX_FREQ * mSoundData.length / SAMPLING_FREQ) - 1 ; i++) {
 			norm = FloatMath.sqrt(mSoundData[i] * mSoundData[i] + mSoundData[i+1] * mSoundData[i+1]);
 			if (maxNorm < norm) {
 				maxNorm = norm ;
-				iMax = i;
+				freq = SAMPLING_FREQ * i / (mSoundData.length);
 			}
 		}
-		Log.d("Beer", "Beer max norm " + maxNorm + " iMax " + iMax);
+		Log.d("Beer", "Beer max norm " + maxNorm + " freq " + freq);
 	}
 
 	
