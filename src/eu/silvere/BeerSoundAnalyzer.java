@@ -53,15 +53,11 @@ public class BeerSoundAnalyzer {
 
 	public void launchRecording() {
 
-		int ret;
-
 		Log.d("Beer", "Beer " + mRawDataMic.length + " Recording");
 
 		mRecord.startRecording();
-		ret = mRecord.read(mRawDataMic, 0, mRawDataMic.length);
+		mRecord.read(mRawDataMic, 0, mRawDataMic.length);// /TODO: test return
 		mRecord.stop();
-
-		
 
 	}
 
@@ -71,9 +67,9 @@ public class BeerSoundAnalyzer {
 		float norm = 0;
 		float freq = 0;
 
-		for (int i = 0; i < mSoundData.length ; i++)
+		for (int i = 0; i < mSoundData.length; i++)
 			mSoundData[i] = mRawDataMic[i];
-		
+
 		mFFT.realForward(mSoundData);
 
 		for (int i = 2; i < (MAX_FREQ * mSoundData.length / SAMPLING_FREQ) - 1; i++) {
@@ -88,6 +84,17 @@ public class BeerSoundAnalyzer {
 
 		return freq;
 
+	}
+
+	public float computeVolume(float freq, float freq1, float vol1, float freq2, float vol2) {
+
+		float a = (vol1 - vol2) / (freq1 - freq2);
+		float b = vol1 - a * freq1;
+		float v = a * freq + b;
+
+		Log.d("Beer", "Beer freq " + freq + " Hz, vol " + v);
+
+		return v;
 	}
 
 }
