@@ -6,7 +6,9 @@ package eu.silvere;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder.AudioSource;
+import android.util.FloatMath;
 import android.util.Log;
+import android.widget.SlidingDrawer;
 import edu.emory.mathcs.jtransforms.fft.FloatFFT_1D;
 
 
@@ -29,29 +31,55 @@ public class BeerSoundAnalyzer {
 	private FloatFFT_1D mFFT;
 	private AudioRecord mRecord;
 	private byte[] mRawDataMic;
+	private float[] mSoundData;
 	
 	public BeerSoundAnalyzer() {
 		
 		int bufSize = AudioRecord.getMinBufferSize(SAMPLING_FREQ, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT);
+		bufSize = RECORD_DURATION * SAMPLING_FREQ < bufSize ? bufSize : RECORD_DURATION * SAMPLING_FREQ;
+		Log.d("Beer", "Beer " + "bufSize " + bufSize);
 		mRecord = new AudioRecord(AudioSource.MIC, SAMPLING_FREQ,AudioFormat.CHANNEL_IN_MONO, 
 				AudioFormat.ENCODING_PCM_16BIT, bufSize);
 		
 		mRawDataMic = new byte[bufSize];
+		mSoundData = new float[bufSize] ;
 		
-		mFFT = new FloatFFT_1D(RECORD_DURATION * SAMPLING_FREQ);
+		mFFT = new FloatFFT_1D(bufSize);
 		
 	}
 	
 	
 	public void launchRecording() {
 		
-		String s = new String(mRawDataMic, 0, 10);
-		Log.d("Beer", s);
+		int ret ;
+		float maxNorm = 0;
+		float norm;
+		int iMax = 0;
 		
-		mRecord.read(mRawDataMic, 0, mRawDataMic.length);
+		String s = new String();
+		for (int i = 0 ; i < 10 ; i++)
+			s += " " + mRawDataMic[i] ;
+		Log.d("Beer", "Beer " + s);
+		Log.d("Beer", "Beer " + mRawDataMic.length);
 		
-		s = new String(mRawDataMic, 0, 10);
-		Log.d("Beer", s);
+		mRecord.startRecording();
+		ret = mRecord.read(mRawDataMic, 0, mRawDataMic.length);
+		mRecord.stop();
+		
+		for (int i = 0 ; i < ret ; i++)
+			mSoundData[i] = mRawDataMic[i];
+		
+		mFFT.realForward(mSoundData);
+		iMax = 0;
+		maxNorm = norm = mSoundData[0];
+		for (int i = 1 ; i < mSoundData.length - 1 ; i++) {
+			norm = FloatMath.sqrt(mSoundData[i] * mSoundData[i] + mSoundData[i+1] * mSoundData[i+1]);
+			if (maxNorm < norm) {
+				maxNorm = norm ;
+				iMax = i;
+			}
+		}
+		Log.d("Beer", "Beer max norm " + maxNorm + " iMax " + iMax);
 	}
 
 	
