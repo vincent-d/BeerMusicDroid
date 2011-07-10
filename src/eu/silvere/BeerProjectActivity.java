@@ -1,18 +1,22 @@
 package eu.silvere;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class BeerProjectActivity extends Activity {
 
-	private BeerSoundAnalyzer mBeerAnalyze;
 	private TextView tv;
+	private ProgressBar analyzeProgresBar;
+	private Button mLauchButton;
+
+	private BeerSoundAnalyzer mBeerSoundAnalyzer;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -20,7 +24,7 @@ public class BeerProjectActivity extends Activity {
 		super.onCreate(savedInstanceState);
 
 		// No Title bar
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		// requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 		// full screen
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -30,17 +34,66 @@ public class BeerProjectActivity extends Activity {
 
 		Log.d("Beer", "Beer" + "Activity started");
 
-		mBeerAnalyze = new BeerSoundAnalyzer();
-		tv = (TextView) findViewById(R.id.text);
-		Button button = (Button) findViewById(R.id.button);
+		mBeerSoundAnalyzer = new BeerSoundAnalyzer();
 
-		button.setOnClickListener(new View.OnClickListener() {
+		tv = (TextView) findViewById(R.id.text);
+		analyzeProgresBar = (ProgressBar) findViewById(R.id.analyzingProgressBar);
+		analyzeProgresBar.setMax(3);
+
+		mLauchButton = (Button) findViewById(R.id.button);
+
+		mLauchButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				mBeerAnalyze.launchRecording();
-				float f = mBeerAnalyze.computeFFT();
-				tv.setText("Hello, Beeeeeeeeeeer " + f);
+				// TODO takes this two pairs of parameters from the resources
+				float[] one = { 1f, 1f };
+				float[] two = { 1f, 1f };
+				new AnalyzerAsyncTask().execute(one, two);
 			}
 		});
 
 	}
+
+	/**
+	 * @author Vincent Dupont <vincent.touffi@gmail.com>
+	 * 
+	 */
+	public class AnalyzerAsyncTask extends AsyncTask<float[], Integer, Float> {
+
+		@Override
+		protected void onPreExecute() {
+			analyzeProgresBar.setProgress(0);
+			analyzeProgresBar.setVisibility(View.VISIBLE);
+			mLauchButton.setEnabled(false);
+		}
+
+		@Override
+		protected Float doInBackground(float[]... params) {
+			mBeerSoundAnalyzer.launchRecording();
+			publishProgress(1);
+			float f = mBeerSoundAnalyzer.computeFFT();
+			publishProgress(2);
+			return mBeerSoundAnalyzer.computeVolume(f, params[0][0], params[0][1], params[1][0],
+					params[1][1]);
+		}
+
+		@Override
+		protected void onProgressUpdate(Integer... values) {
+			analyzeProgresBar.setProgress(values[0]);
+		}
+
+		@Override
+		protected void onPostExecute(Float result) {
+			analyzeProgresBar.setVisibility(View.INVISIBLE);
+			tv.setText("Hello, Beeeeeeeeeeer " + result);
+			mLauchButton.setEnabled(true);
+		}
+
+		@Override
+		protected void onCancelled() {
+			// TODO Auto-generated method stub
+			super.onCancelled();
+		}
+
+	}
+
 }
