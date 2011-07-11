@@ -31,10 +31,25 @@ public class BeerSoundAnalyzer {
 
 	private FloatFFT_1D mFFT;
 	private AudioRecord mRecord;
+	private BeerParameters mBeerParam;
 	private byte[] mRawDataMic;
 	private float[] mSoundData;
 
 	public BeerSoundAnalyzer() {
+
+		initializeSound();
+		mBeerParam = new BeerParameters();
+
+	}
+
+	public BeerSoundAnalyzer(BeerParameters beerParam) {
+
+		initializeSound();
+		mBeerParam = beerParam;
+
+	}
+
+	public void initializeSound() {
 
 		int bufSize = AudioRecord.getMinBufferSize(SAMPLING_FREQ, AudioFormat.CHANNEL_IN_MONO,
 				AudioFormat.ENCODING_PCM_16BIT);
@@ -86,15 +101,10 @@ public class BeerSoundAnalyzer {
 
 	}
 
-	public float computeVolume(float freq, float freq1, float vol1, float freq2, float vol2) {
+	public float computeVolume(float freq) {
 
-		float a = (vol1 - vol2) / (freq1 - freq2);
-		float b = vol1 - a * freq1;
-		float v = a * freq + b;
+		return mBeerParam.computeVolume(freq);
 
-		Log.d("Beer", "Beer freq " + freq + " Hz, vol " + v);
-
-		return v;
 	}
 
 }

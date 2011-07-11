@@ -34,7 +34,16 @@ public class BeerProjectActivity extends Activity {
 
 		Log.d("Beer", "Beer" + "Activity started");
 
-		mBeerSoundAnalyzer = new BeerSoundAnalyzer();
+		float[][] param = new float[2][4];
+		param[0][0] = 104;
+		param[0][1] = 60;
+		param[1][0] = 300;
+		param[1][1] = 260;
+		param[0][2] = 208;
+		param[1][2] = 548;
+		param[0][3] = 0;
+		param[1][3] = 220;
+		mBeerSoundAnalyzer = new BeerSoundAnalyzer(new BeerParameters(param));
 
 		tv = (TextView) findViewById(R.id.text);
 		analyzeProgresBar = (ProgressBar) findViewById(R.id.analyzingProgressBar);
@@ -45,9 +54,11 @@ public class BeerProjectActivity extends Activity {
 		mLaunchButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				// TODO takes this two pairs of parameters from the resources
-				float[] one = { 1f, 1f };
-				float[] two = { 1f, 1f };
-				new AnalyzerAsyncTask().execute(one, two);
+				// float[] one = { 1f, 1f };
+				// float[] two = { 1f, 1f };
+				// float[] one = { 300f, 104f };
+				// float[] two = { 260f, 60f };
+				new AnalyzerAsyncTask().execute();
 			}
 		});
 
@@ -72,8 +83,7 @@ public class BeerProjectActivity extends Activity {
 			publishProgress(1);
 			float f = mBeerSoundAnalyzer.computeFFT();
 			publishProgress(2);
-			return mBeerSoundAnalyzer.computeVolume(f, params[0][0], params[0][1], params[1][0],
-					params[1][1]);
+			return mBeerSoundAnalyzer.computeVolume(f);
 		}
 
 		@Override
