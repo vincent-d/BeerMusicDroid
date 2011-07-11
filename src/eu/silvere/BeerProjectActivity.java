@@ -14,7 +14,7 @@ public class BeerProjectActivity extends Activity {
 
 	private TextView tv;
 	private ProgressBar analyzeProgresBar;
-	private Button mLauchButton;
+	private Button mLaunchButton;
 
 	private BeerSoundAnalyzer mBeerSoundAnalyzer;
 
@@ -40,9 +40,9 @@ public class BeerProjectActivity extends Activity {
 		analyzeProgresBar = (ProgressBar) findViewById(R.id.analyzingProgressBar);
 		analyzeProgresBar.setMax(3);
 
-		mLauchButton = (Button) findViewById(R.id.button);
+		mLaunchButton = (Button) findViewById(R.id.button);
 
-		mLauchButton.setOnClickListener(new View.OnClickListener() {
+		mLaunchButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
 				// TODO takes this two pairs of parameters from the resources
 				float[] one = { 1f, 1f };
@@ -63,7 +63,7 @@ public class BeerProjectActivity extends Activity {
 		protected void onPreExecute() {
 			analyzeProgresBar.setProgress(0);
 			analyzeProgresBar.setVisibility(View.VISIBLE);
-			mLauchButton.setEnabled(false);
+			mLaunchButton.setEnabled(false);
 		}
 
 		@Override
@@ -85,7 +85,7 @@ public class BeerProjectActivity extends Activity {
 		protected void onPostExecute(Float result) {
 			analyzeProgresBar.setVisibility(View.INVISIBLE);
 			tv.setText("Hello, Beeeeeeeeeeer " + result);
-			mLauchButton.setEnabled(true);
+			mLaunchButton.setEnabled(true);
 		}
 
 		@Override
