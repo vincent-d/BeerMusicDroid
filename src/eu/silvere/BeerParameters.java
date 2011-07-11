@@ -38,9 +38,15 @@ public class BeerParameters {
 
 		float v = 0f;
 
-		for (int i = 0; i < mA.length; i++) {
-			if (freq >= mFreq[i] && freq <= mFreq[i + 1])
-				v = mA[i] * freq + mB[i];
+		if (freq <= mFreq[0])
+			v = mA[0] * freq + mB[0];
+		else if (freq >= mFreq[mFreq.length - 1])
+			v = mA[mA.length - 1] * freq + mB[mB.length - 1];
+		else {
+			for (int i = 0; i < mA.length; i++) {
+				if (freq >= mFreq[i] && freq <= mFreq[i + 1])
+					v = mA[i] * freq + mB[i];
+			}
 		}
 
 		Log.d("Beer", "Beer freq " + freq + " Hz, vol " + v);
