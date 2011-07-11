@@ -8,18 +8,41 @@ import android.util.Log;
 /**
  * @author Vincent Dupont <vincent.touffi@gmail.com>
  * 
+ *         This class handle the computing of volume in the bottle
+ * 
  */
 public class BeerParameters {
 
+	/**
+	 * The array of slopes for each line
+	 */
 	private float[] mA;
+	/**
+	 * The array of y-intercept for each line
+	 */
 	private float[] mB;
+	/**
+	 * The array of reference frequencies
+	 */
 	private float[] mFreq;
+	/**
+	 * The array of reference volumes
+	 */
 	private float[] mVol;
 
 	public BeerParameters() {
 
 	}
 
+	/**
+	 * Constructor for BeerParameters
+	 * 
+	 * It computes slopes and y-intercept for each couple of (volume, freq)
+	 * points
+	 * 
+	 * @param param
+	 *            The array of parameters (0-index = volume, 1-index = freq)
+	 */
 	public BeerParameters(float[][] param) {
 
 		mFreq = new float[param[0].length];
@@ -34,6 +57,13 @@ public class BeerParameters {
 
 	}
 
+	/**
+	 * Compute the volume of beer from frequency in accordance to the models
+	 * 
+	 * @param freq
+	 *            The frequency
+	 * @return The computed volume
+	 */
 	public float computeVolume(float freq) {
 
 		float v = 0f;
@@ -54,6 +84,9 @@ public class BeerParameters {
 		return v;
 	}
 
+	/**
+	 * Compute the coefficients (slopes and y-intercepts)
+	 */
 	public void computeCoef() {
 
 		mA = new float[mFreq.length - 1];
