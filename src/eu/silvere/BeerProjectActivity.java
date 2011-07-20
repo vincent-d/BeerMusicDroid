@@ -1,6 +1,15 @@
 package eu.silvere;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
+
 import android.app.Activity;
+import android.content.res.Resources;
+import android.content.res.XmlResourceParser;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -53,14 +62,60 @@ public class BeerProjectActivity extends Activity {
 
 		mLaunchButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
-				// TODO takes this two pairs of parameters from the resources
-				// float[] one = { 1f, 1f };
-				// float[] two = { 1f, 1f };
-				// float[] one = { 300f, 104f };
-				// float[] two = { 260f, 60f };
 				new AnalyzerAsyncTask().execute();
 			}
 		});
+
+		// TODO finish and move resources loading elsewhere
+		Resources resources = getResources();
+		XmlResourceParser parser = resources.getXml(R.xml.beer_bottles);
+
+		List<BeerBottle> bottles = null;
+		try {
+			int eventType = parser.getEventType();
+			BeerBottle currentBottle = null;
+			boolean done = false;
+			while (eventType != XmlPullParser.END_DOCUMENT && !done) {
+				String name = null;
+				switch (eventType) {
+				case XmlPullParser.START_DOCUMENT:
+					bottles = new ArrayList<BeerBottle>();
+					break;
+				case XmlPullParser.START_TAG:
+					name = parser.getName();
+					if (name.equalsIgnoreCase("bottle")) {
+						currentBottle = new BeerBottle(parser.nextText());
+					} else if (currentBottle != null) {
+						if (name.equalsIgnoreCase("image")) {
+							// resources.getDrawable(R.drawable.) TODO
+							currentBottle.setImage(null);
+						} else if (name.equalsIgnoreCase("description")) {
+							currentBottle.setDescription(parser.nextText());
+						} else if (name.equalsIgnoreCase("frequency")) {
+							float frequency = parser.getAttributeFloatValue(null, "frequency", 0);
+							float volume = parser.getAttributeFloatValue(null, "volume", 0);
+							currentBottle.addFrequency(volume, frequency);
+						}
+					}
+					break;
+				case XmlPullParser.END_TAG:
+					name = parser.getName();
+					if (name.equalsIgnoreCase("bottle") && currentBottle != null) {
+						bottles.add(currentBottle);
+					} else if (name.equalsIgnoreCase("beer_bottle_list")) {
+						done = true;
+					}
+					break;
+				}
+				eventType = parser.next();
+			}
+		} catch (XmlPullParserException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beer_bottle_list>
+    <bottle name="heineken">
+        <image>@drawable/beer_bottle</image>
+        <description>A famous green bottle</description>
+        <frequencies>
+        	<frequency frequency="440" volume="0" />
+        	<frequency frequency="540" volume="100" />
+        </frequencies>
+    </bottle>
+</beer_bottle_list>
