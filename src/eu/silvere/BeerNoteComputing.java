@@ -6,6 +6,8 @@ package eu.silvere;
 /**
  * @author Vincent Dupont <vincent.touffi@gmail.com>
  * 
+ *         This class allows computing with notes
+ * 
  */
 public class BeerNoteComputing {
 

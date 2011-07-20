@@ -6,6 +6,7 @@ package eu.silvere;
 /**
  * @author Vincent Dupont <vincent.touffi@gmail.com>
  * 
+ *         This enum represents a note and its name
  */
 public enum BeerNoteName {
 
