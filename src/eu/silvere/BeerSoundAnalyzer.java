@@ -17,21 +17,22 @@ import edu.emory.mathcs.jtransforms.fft.FloatFFT_1D;
 public class BeerSoundAnalyzer {
 
 	/**
-	 * The sampling frequency of the record
+	 * The sampling frequency of the record (in Hz)
 	 */
 	private static final int SAMPLING_FREQ = 44100;
 	/**
-	 * The maximum frequency
+	 * The maximum frequency (in Hz)
 	 */
 	private static final int MAX_FREQ = 1000;
 	/**
-	 * The duration of record
+	 * The duration of record (in s)
 	 */
 	private static final int RECORD_DURATION = 3;
 
 	private FloatFFT_1D mFFT;
 	private AudioRecord mRecord;
 	private BeerParameters mBeerParam;
+	private BeerNoteComputing mBeerNote;
 	private byte[] mRawDataMic;
 	private float[] mSoundData;
 
@@ -63,6 +64,8 @@ public class BeerSoundAnalyzer {
 		mSoundData = new float[bufSize];
 
 		mFFT = new FloatFFT_1D(bufSize);
+
+		mBeerNote = new BeerNoteComputing();
 
 	}
 
@@ -103,7 +106,14 @@ public class BeerSoundAnalyzer {
 
 	public float computeVolume(float freq) {
 
+		Log.d("Beer", "Beer " + computeNote(freq));
 		return mBeerParam.computeVolume(freq);
+
+	}
+
+	public BeerNote computeNote(float freq) {
+
+		return mBeerNote.getApproxNoteFromFreq(freq);
 
 	}
 
