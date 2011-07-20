@@ -106,7 +106,6 @@ public class BeerSoundAnalyzer {
 
 	public float computeVolume(float freq) {
 
-		Log.d("Beer", "Beer " + computeNote(freq));
 		return mBeerParam.computeVolume(freq);
 
 	}

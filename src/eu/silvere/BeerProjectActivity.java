@@ -70,6 +70,10 @@ public class BeerProjectActivity extends Activity {
 	 */
 	public class AnalyzerAsyncTask extends AsyncTask<float[], Integer, Float> {
 
+		float mFreq;
+		float mVol;
+		BeerNote mNote;
+
 		@Override
 		protected void onPreExecute() {
 			analyzeProgresBar.setProgress(0);
@@ -83,7 +87,10 @@ public class BeerProjectActivity extends Activity {
 			publishProgress(1);
 			float f = mBeerSoundAnalyzer.computeFFT();
 			publishProgress(2);
-			return mBeerSoundAnalyzer.computeVolume(f);
+			mFreq = f;
+			mVol = mBeerSoundAnalyzer.computeVolume(f);
+			mNote = mBeerSoundAnalyzer.computeNote(f);
+			return f;
 		}
 
 		@Override
@@ -94,7 +101,7 @@ public class BeerProjectActivity extends Activity {
 		@Override
 		protected void onPostExecute(Float result) {
 			analyzeProgresBar.setVisibility(View.INVISIBLE);
-			tv.setText("Hello, Beeeeeeeeeeer " + result);
+			tv.setText("Hello, Beeeeeeer " + result + " Hz " + mVol + " mL " + mNote);
 			mLaunchButton.setEnabled(true);
 		}
 
