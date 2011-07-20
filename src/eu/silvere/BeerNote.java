@@ -1,5 +1,12 @@
 package eu.silvere;
 
+/**
+ * 
+ * @author Vincent Dupont <vincent.touffi@gmail.com>
+ * 
+ *         This class represents a note associated with its frequency
+ * 
+ */
 class BeerNote {
 
 	private float mFreq;
@@ -20,6 +27,12 @@ class BeerNote {
 		mLevel = level;
 	}
 
+	/**
+	 * Initializes the attributes an octave higher than @p base
+	 * 
+	 * @param base
+	 *            The base note
+	 */
 	public void oct(BeerNote base) {
 		mFreq = base.mFreq * 2;
 		mName = base.mName;
