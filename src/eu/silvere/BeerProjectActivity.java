@@ -75,9 +75,11 @@ public class BeerProjectActivity extends Activity {
 				case XmlPullParser.START_TAG:
 					name = parser.getName();
 					if (name.equalsIgnoreCase("bottle")) {
-						currentBottle = new BeerBottle(parser.nextText());
+						currentBottle = new BeerBottle();
 					} else if (currentBottle != null) {
-						if (name.equalsIgnoreCase("image")) {
+						if (name.equalsIgnoreCase("name")) {
+							currentBottle.setName(parser.nextText());
+						} else if (name.equalsIgnoreCase("image")) {
 							// resources.getDrawable(R.drawable.) TODO
 							currentBottle.setImage(null);
 						} else if (name.equalsIgnoreCase("description")) {
@@ -100,6 +102,7 @@ public class BeerProjectActivity extends Activity {
 				}
 				eventType = parser.next();
 			}
+
 		} catch (XmlPullParserException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
