@@ -31,22 +31,22 @@ public class BeerSoundAnalyzer {
 
 	private FloatFFT_1D mFFT;
 	private AudioRecord mRecord;
-	private BeerParameters mBeerParam;
-	private BeerNoteComputing mBeerNote;
+	private BeerBottle mBeerBottle;
+	private BeerNoteComputing mBeerNoteCompute;
 	private byte[] mRawDataMic;
 	private float[] mSoundData;
 
 	public BeerSoundAnalyzer() {
 
 		initializeSound();
-		mBeerParam = new BeerParameters();
+		mBeerBottle = new BeerBottle();
 
 	}
 
-	public BeerSoundAnalyzer(BeerParameters beerParam) {
+	public BeerSoundAnalyzer(BeerBottle beerParam) {
 
 		initializeSound();
-		mBeerParam = beerParam;
+		mBeerBottle = beerParam;
 
 	}
 
@@ -65,7 +65,7 @@ public class BeerSoundAnalyzer {
 
 		mFFT = new FloatFFT_1D(bufSize);
 
-		mBeerNote = new BeerNoteComputing();
+		mBeerNoteCompute = new BeerNoteComputing();
 
 	}
 
@@ -106,14 +106,22 @@ public class BeerSoundAnalyzer {
 
 	public float computeVolume(float freq) {
 
-		return mBeerParam.computeVolume(freq);
+		return mBeerBottle.computeVolume(freq);
 
 	}
 
 	public BeerNote computeNote(float freq) {
 
-		return mBeerNote.getApproxNoteFromFreq(freq);
+		return mBeerNoteCompute.getApproxNoteFromFreq(freq);
 
+	}
+
+	public BeerBottle getBeerBottle() {
+		return mBeerBottle;
+	}
+
+	public void setBeerBottle(BeerBottle beerBottle) {
+		this.mBeerBottle = beerBottle;
 	}
 
 }

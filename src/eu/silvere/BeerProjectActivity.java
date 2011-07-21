@@ -43,16 +43,7 @@ public class BeerProjectActivity extends Activity {
 
 		Log.d("Beer", "Beer" + "Activity started");
 
-		float[][] param = new float[2][4];
-		param[0][0] = 104;
-		param[0][1] = 60;
-		param[1][0] = 300;
-		param[1][1] = 260;
-		param[0][2] = 208;
-		param[1][2] = 548;
-		param[0][3] = 0;
-		param[1][3] = 220;
-		mBeerSoundAnalyzer = new BeerSoundAnalyzer(new BeerParameters(param));
+		mBeerSoundAnalyzer = new BeerSoundAnalyzer();
 
 		tv = (TextView) findViewById(R.id.text);
 		analyzeProgresBar = (ProgressBar) findViewById(R.id.analyzingProgressBar);
@@ -117,6 +108,8 @@ public class BeerProjectActivity extends Activity {
 			e.printStackTrace();
 		}
 
+		mBeerSoundAnalyzer.setBeerBottle(bottles.get(0));
+		mBeerSoundAnalyzer.getBeerBottle().computeCoef();
 	}
 
 	/**
