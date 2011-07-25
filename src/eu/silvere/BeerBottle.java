@@ -21,11 +21,11 @@ public class BeerBottle {
 	 */
 	private List<Float> mB;
 	/**
-	 * The array of reference frequencies
+	 * The array of reference frequencies (in Hz)
 	 */
 	private List<Float> mFreq;
 	/**
-	 * The array of reference volumes
+	 * The array of reference volumes (in mL)
 	 */
 	private List<Float> mVol;
 
