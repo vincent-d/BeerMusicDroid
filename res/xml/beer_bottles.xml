@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- frequencies are in Hz -->
+<!-- volumes are in mL -->
 <beer_bottle_list>
     <bottle>
     	<name>heineken</name>
@@ -16,5 +18,25 @@
         	<frequency frequency="548.0" volume="208.0"/>
         	<frequency frequency="578.0" volume="214.0"/>
         </frequencies>
+    </bottle>
+    <bottle>
+    	<name>leffe</name>
+    	<description>Belgish Bier</description>
+    	<frequencies>
+    		<frequency frequency="224.0" volume="0.0" />
+    		<frequency frequency="237.0" volume="23.0" />
+    		<frequency frequency="247.0" volume="41.0" />
+    		<frequency frequency="258.0" volume="61.0" />
+    		<frequency frequency="274.0" volume="82.0" />
+    		<frequency frequency="291.0" volume="101.0" />
+    		<frequency frequency="318.0" volume="122.0" />
+    		<frequency frequency="343.0" volume="139.0" />
+    		<frequency frequency="378.0" volume="161.0" />
+    		<frequency frequency="442.0" volume="185.0" />
+    		<frequency frequency="460.0" volume="190.0" />
+    		<frequency frequency="498.0" volume="200.0" />
+    		<frequency frequency="560.0" volume="210.0" />
+    		<frequency frequency="637.0" volume="221.0" />
+    	</frequencies>
     </bottle>
 </beer_bottle_list>
