@@ -46,15 +46,22 @@ public class BeerNoteComputing {
 			return mNotes[NB_OCT * 12 - 1];
 
 		BeerNote n = mNotes[0];
+		float prev = 0;
+		float next = 1;
+		double r = Math.pow(2.0, 1.0 / 24.0);
 		for (int i = 1; i < mNotes.length - 1; i++) {
-			if ((freq >= (mNotes[i].getFreq() + mNotes[i - 1].getFreq()) / 2)
-					&& (freq < (mNotes[i + 1].getFreq() + mNotes[i].getFreq()) / 2)) {
+			prev = (float) (mNotes[i - 1].getFreq() * r);
+			next = (float) (mNotes[i].getFreq() * r);
+			if ((freq >= prev) && (freq < next)) {
 				n = mNotes[i];
 				break;
 			}
 		}
 
-		return n;
+		BeerNote nret = new BeerNote(n);
+		short t = (short) (2 * (freq - n.getFreq()) / (next - prev) * 255);
+		nret.setTrust(t);
+		return nret;
 
 	}
 }

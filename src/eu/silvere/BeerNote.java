@@ -11,20 +11,26 @@ class BeerNote {
 
 	private float mFreq;
 	private BeerNoteName mName;
-	private int mLevel;
+	private int mOctave;
+	private short mTrust;
 
-	public BeerNote(float freq, BeerNoteName name, int level) {
-		setValues(freq, name, level);
+	public BeerNote(float freq, BeerNoteName name, int octave) {
+		setValues(freq, name, octave, (short) 0);
+	}
+
+	public BeerNote(BeerNote note) {
+		setValues(note.getFreq(), note.getName(), note.getOctave(), note.getTrust());
 	}
 
 	public BeerNote() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public void setValues(float freq, BeerNoteName name, int level) {
+	public void setValues(float freq, BeerNoteName name, int octave, short trust) {
 		mFreq = freq;
 		mName = name;
-		mLevel = level;
+		mOctave = octave;
+		mTrust = trust;
 	}
 
 	/**
@@ -36,7 +42,7 @@ class BeerNote {
 	public void oct(BeerNote base) {
 		mFreq = base.mFreq * 2;
 		mName = base.mName;
-		mLevel = base.mLevel + 1;
+		mOctave = base.mOctave + 1;
 	}
 
 	public float getFreq() {
@@ -47,11 +53,19 @@ class BeerNote {
 		return mName;
 	}
 
-	public int getLevel() {
-		return mLevel;
+	public int getOctave() {
+		return mOctave;
+	}
+
+	public short getTrust() {
+		return mTrust;
+	}
+
+	public void setTrust(short trust) {
+		mTrust = trust;
 	}
 
 	public String toString() {
-		return mName.getName() + " " + mLevel;
+		return mName.getName() + " " + mOctave + " trust " + mTrust;
 	}
 }
