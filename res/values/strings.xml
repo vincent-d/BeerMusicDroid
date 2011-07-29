@@ -2,4 +2,6 @@
 <resources>
 	<string name="hello">Hello Beer, blow.</string>
 	<string name="app_name">BeerProject</string>
+	<string name="appTitle">BeerNote</string>
+	<string name="app_welcome_msg">Appli d\'alcoolique qui déchire trop de la balle sa maman. Même que.</string>
 </resources>
