@@ -1,5 +1,6 @@
 package eu.silvere;
 
+
 /**
  * 
  * @author Vincent Dupont <vincent.touffi@gmail.com>
@@ -68,4 +69,5 @@ class BeerNote {
 	public String toString() {
 		return mName.getName() + " " + mOctave + " trust " + mTrust;
 	}
+
 }

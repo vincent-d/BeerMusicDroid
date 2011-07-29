@@ -4,7 +4,7 @@
 <beer_bottle_list>
     <bottle>
     	<name>heineken</name>
-        <image>@drawable/beer_bottle</image>
+        <bitmap>@drawable/beer_bottle</bitmap>
         <description>A famous green bottle</description>
         <frequencies>
         	<frequency frequency="220.0" volume="0.0"  />

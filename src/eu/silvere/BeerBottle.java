@@ -3,14 +3,19 @@ package eu.silvere;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.graphics.drawable.Drawable;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
-public class BeerBottle {
+public class BeerBottle implements Parcelable {
 
-	private String name;
-	private Drawable image;
-	private String description;
+	private String mName;
+	private String mBitmapPath;
+	private String mDescription;
+
+	private Bitmap mBitmap;
 
 	/**
 	 * The array of slopes for each line
@@ -30,7 +35,7 @@ public class BeerBottle {
 	private List<Float> mVol;
 
 	public BeerBottle(String name) {
-		this.name = name;
+		this.mName = name;
 		mFreq = new ArrayList<Float>();
 		mVol = new ArrayList<Float>();
 	}
@@ -46,7 +51,7 @@ public class BeerBottle {
 	 */
 	public BeerBottle(String name, float[][] param) {
 
-		this.name = name;
+		this.mName = name;
 
 		mFreq = new ArrayList<Float>(param[0].length);
 		mVol = new ArrayList<Float>(param[0].length);
@@ -131,27 +136,74 @@ public class BeerBottle {
 	}
 
 	public String getName() {
-		return name;
+		return mName;
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.mName = name;
 	}
 
-	public Drawable getImage() {
-		return image;
+	public Bitmap getBitmap() {
+		return mBitmap;
 	}
 
-	public void setImage(Drawable image) {
-		this.image = image;
+	public void setBitmapPath(String path) {
+		this.mBitmapPath = path;
+		loadBitmap();
+	}
+
+	public void loadBitmap() {
+		this.mBitmap = BitmapFactory.decodeFile(mBitmapPath);
+
 	}
 
 	public String getDescription() {
-		return description;
+		return mDescription;
 	}
 
 	public void setDescription(String description) {
-		this.description = description;
+		this.mDescription = description;
+	}
+
+	@Override
+	public int describeContents() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public void writeToParcel(Parcel dest, int flags) {
+
+		dest.writeString(mName);
+		dest.writeString(mBitmapPath);
+		dest.writeString(mDescription);
+
+		dest.writeList(mFreq);
+		dest.writeList(mVol);
+	}
+
+	public static final Parcelable.Creator<BeerBottle> CREATOR = new Parcelable.Creator<BeerBottle>() {
+		public BeerBottle createFromParcel(Parcel in) {
+			return new BeerBottle(in);
+		}
+
+		public BeerBottle[] newArray(int size) {
+			return new BeerBottle[size];
+		}
+	};
+
+	private BeerBottle(Parcel in) {
+		mName = in.readString();
+		mBitmapPath = in.readString();
+		mDescription = in.readString();
+
+		in.readList(mFreq, null);
+		in.readList(mVol, null);
+
+		computeCoef();
+
+		loadBitmap();
+
 	}
 
 }
