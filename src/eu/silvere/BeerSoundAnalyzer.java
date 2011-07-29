@@ -116,6 +116,12 @@ public class BeerSoundAnalyzer {
 
 	}
 
+	public float computeVolumeToAdd(float freq, float targetFreq) {
+
+		return computeVolume(targetFreq) - computeVolume(freq);
+
+	}
+
 	public BeerBottle getBeerBottle() {
 		return mBeerBottle;
 	}
