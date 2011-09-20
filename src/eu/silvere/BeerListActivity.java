@@ -20,17 +20,24 @@ public class BeerListActivity extends ListActivity {
 	private static final String DESCRIPTION = "description";
 
 	private Context mCtx;
-	private BeerBottleLoader mBeerBottleLoader;
-	private List<BeerBottle> mBootleList;
+	private ArrayList<BeerBottle> mBootleList;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		mCtx = getApplicationContext();
 
-		mBeerBottleLoader = (BeerBottleLoader) savedInstanceState.get("beer_list");
-		mBootleList = mBeerBottleLoader.getBottles();
+		// mBeerBottleLoader = (BeerBottleLoader)
+		// savedInstanceState.get("beer_list");
+		// mBootleList = new BeerBottleLoader(getResources()).getBottles();
+		if (savedInstanceState != null && savedInstanceState.containsKey("bottle_list")) {
+
+			mBootleList = (ArrayList<BeerBottle>) savedInstanceState.get("bottle_list");
+		} else {
+			mBootleList = new BeerBottleLoader(getResources()).getBottles();
+		}
 
 		List<Map<String, String>> list = createList(mBootleList);
 
@@ -57,6 +64,8 @@ public class BeerListActivity extends ListActivity {
 
 			map.put(NAME, bottle.getName());
 			map.put(DESCRIPTION, bottle.getDescription());
+
+			list.add(map);
 		}
 
 		return list;
@@ -66,13 +75,14 @@ public class BeerListActivity extends ListActivity {
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 
 		Intent intent = new Intent(mCtx, BeerSoundActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
 		/* Sending some arguments */
 		Bundle bundle = new Bundle();
 
 		bundle.putParcelable("bottle", mBootleList.get(position)); // TODO
 
-		intent.putExtras(bundle);
+		intent.putExtra("b", bundle);
 
 		/* Start Activity */
 		mCtx.startActivity(intent);

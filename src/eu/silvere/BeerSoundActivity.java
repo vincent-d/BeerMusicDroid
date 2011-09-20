@@ -48,7 +48,8 @@ public class BeerSoundActivity extends Activity {
 			}
 		});
 
-		mBeerSoundAnalyzer.setBeerBottle((BeerBottle) savedInstanceState.get("bottle"));
+		Bundle bundle = getIntent().getBundleExtra("b");
+		mBeerSoundAnalyzer.setBeerBottle((BeerBottle) bundle.get("bottle"));
 	}
 
 	/**

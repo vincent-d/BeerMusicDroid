@@ -2,7 +2,6 @@ package eu.silvere;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -10,19 +9,24 @@ import org.xmlpull.v1.XmlPullParserException;
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 
-public class BeerBottleLoader implements Runnable {
+public class BeerBottleLoader extends Thread {
 
-	private List<BeerBottle> bottles = null;
+	private ArrayList<BeerBottle> bottles = null;
 	private Resources resources;
 	private boolean running = true;
+
+	public BeerBottleLoader(Resources resources) {
+		this.resources = resources;
+		bottles = new ArrayList<BeerBottle>();
+	}
 
 	public void setResources(Resources resources) {
 		this.resources = resources;
 	}
 
-	public List<BeerBottle> getBottles() {
+	public ArrayList<BeerBottle> getBottles() {
 
-		if (bottles == null) {
+		if (bottles.isEmpty()) {
 			load();
 		}
 		return bottles;
@@ -32,7 +36,7 @@ public class BeerBottleLoader implements Runnable {
 	public void run() {
 		load();
 		while (running) {
-			Thread.yield(); // TODO better loop
+			yield(); // TODO better loop
 		}
 	}
 
@@ -49,7 +53,6 @@ public class BeerBottleLoader implements Runnable {
 					String name = null;
 					switch (eventType) {
 					case XmlPullParser.START_DOCUMENT:
-						bottles = new ArrayList<BeerBottle>();
 						break;
 					case XmlPullParser.START_TAG:
 						name = parser.getName();
@@ -93,7 +96,7 @@ public class BeerBottleLoader implements Runnable {
 		}
 	}
 
-	public void stop() {
+	public void kill() {
 		running = false;
 	}
 
