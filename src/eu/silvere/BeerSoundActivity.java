@@ -36,7 +36,14 @@ public class BeerSoundActivity extends Activity {
 
 		mBeerSoundAnalyzer = new BeerSoundAnalyzer();
 
+		Bundle bundle = getIntent().getBundleExtra("b");
+		BeerBottle beerBottle = (BeerBottle) bundle.getParcelable("bottle");
+		mBeerSoundAnalyzer.setBeerBottle(beerBottle);
+
 		tv = (TextView) findViewById(R.id.text);
+		tv.setText(mBeerSoundAnalyzer.getBeerBottle().getName() + " "
+				+ mBeerSoundAnalyzer.getBeerBottle().getDescription());
+
 		analyzeProgresBar = (ProgressBar) findViewById(R.id.analyzingProgressBar);
 		analyzeProgresBar.setMax(3);
 
@@ -48,9 +55,6 @@ public class BeerSoundActivity extends Activity {
 			}
 		});
 
-		Bundle bundle = getIntent().getBundleExtra("b");
-		BeerBottle beerBottle = (BeerBottle) bundle.getParcelable("bottle");
-		mBeerSoundAnalyzer.setBeerBottle(beerBottle);
 	}
 
 	/**
@@ -90,7 +94,8 @@ public class BeerSoundActivity extends Activity {
 		@Override
 		protected void onPostExecute(Float result) {
 			analyzeProgresBar.setVisibility(View.INVISIBLE);
-			tv.setText("Hello, Beeeeeeer " + result + " Hz " + mVol + " mL " + mNote);
+			tv.setText("Hello, " + mBeerSoundAnalyzer.getBeerBottle().getName() + " " + result
+					+ " Hz " + mVol + " mL " + mNote);
 			mLaunchButton.setEnabled(true);
 		}
 
