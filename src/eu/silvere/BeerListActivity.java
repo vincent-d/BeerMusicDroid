@@ -48,8 +48,7 @@ public class BeerListActivity extends ListActivity {
 		String[] from = { NAME, DESCRIPTION };
 		int[] to = { R.id.name, R.id.description };
 
-		ListAdapter adapter = new SimpleAdapter(mCtx, list, R.layout.beer_list_activity_view, from,
-				to);
+		ListAdapter adapter = new SimpleAdapter(mCtx, list, R.layout.beer_row_view, from, to);
 		// Bind to our new adapter.
 		setListAdapter(adapter);
 	}
