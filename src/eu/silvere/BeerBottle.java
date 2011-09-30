@@ -197,6 +197,9 @@ public class BeerBottle implements Parcelable {
 		mBitmapPath = in.readString();
 		mDescription = in.readString();
 
+		mFreq = new ArrayList<Float>();
+		mVol = new ArrayList<Float>();
+
 		in.readList(mFreq, null);
 		in.readList(mVol, null);
 
