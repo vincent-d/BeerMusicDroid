@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -20,7 +21,7 @@ public class BeerMainActivity extends Activity {
 
 		mBeerBottleLoader = new BeerBottleLoader(getResources());
 		mBeerBottleLoader.start();
-		mBeerBottleLoader.load(); // TODO still synchronous
+		Log.d("Beer", "Beer" + "Loading bottles");
 
 		Button mLaunchButton = (Button) findViewById(R.id.launch);
 

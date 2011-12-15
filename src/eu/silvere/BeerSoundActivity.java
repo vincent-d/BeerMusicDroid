@@ -5,7 +5,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -27,8 +26,8 @@ public class BeerSoundActivity extends Activity {
 		// requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 		// full screen
-		getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+		// getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		// getWindow().clearFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
 
 		setContentView(R.layout.main);
 

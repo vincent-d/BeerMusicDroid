@@ -8,6 +8,7 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
+import android.util.Log;
 
 public class BeerBottleLoader extends Thread {
 
@@ -35,9 +36,8 @@ public class BeerBottleLoader extends Thread {
 	@Override
 	public void run() {
 		load();
-		while (running) {
-			yield(); // TODO better loop
-		}
+		Log.d("Beer", "Beer" + "Bottles loaded");
+		running = false;
 	}
 
 	public void load() {
