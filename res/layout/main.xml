@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical" android:layout_width="fill_parent"
-	android:layout_height="fill_parent">
-	<TextView android:id="@+id/text" android:layout_width="fill_parent"
+<RelativeLayout android:id="@+id/RelativeLayout1" xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent" android:weightSum="1">
+	<TextView android:layout_alignParentLeft="true" android:layout_alignParentTop="true" android:id="@+id/text" android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:text="@string/hello" />
-	<ProgressBar android:id="@+id/analyzingProgressBar"
+	<ProgressBar android:layout_alignLeft="@+id/text" android:layout_below="@+id/text" android:id="@+id/analyzingProgressBar"
 		android:layout_height="wrap_content" style="?android:attr/progressBarStyleHorizontal"
 		android:layout_width="match_parent" android:visibility="invisible"></ProgressBar>
-	<Button android:id="@+id/button" android:layout_height="wrap_content"
+	<Button android:layout_alignLeft="@+id/text" android:layout_below="@+id/analyzingProgressBar" android:id="@+id/button" android:layout_height="wrap_content"
 		android:text="Re try" android:layout_width="match_parent" />
+	<ImageView android:id="@+id/imageView1" android:src="@drawable/beer_bottle" android:layout_width="wrap_content" android:layout_gravity="center" android:layout_height="wrap_content" android:layout_centerInParent="true"></ImageView>
 
-</LinearLayout>
+</RelativeLayout>

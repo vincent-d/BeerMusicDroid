@@ -3,9 +3,10 @@
 <!-- volumes are in mL -->
 <beer_bottle_list>
     <bottle>
-    	<name>heineken</name>
+    	<name>Heineken</name>
         <bitmap>@drawable/beer_bottle</bitmap>
         <description>A famous green bottle</description>
+        <volume>250.0</volume>
         <frequencies>
         	<frequency frequency="220.0" volume="0.0"  />
         	<frequency frequency="246.0" volume="40.0" />
@@ -20,8 +21,9 @@
         </frequencies>
     </bottle>
     <bottle>
-    	<name>leffe</name>
+    	<name>Leffe</name>
     	<description>Belgish Bier</description>
+    	<volume>250.0</volume>
     	<frequencies>
     		<frequency frequency="224.0" volume="0.0" />
     		<frequency frequency="237.0" volume="23.0" />
