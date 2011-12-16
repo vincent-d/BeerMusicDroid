@@ -16,6 +16,14 @@ public class BeerBottleLoader extends Thread {
 	private Resources resources;
 	private boolean running = true;
 
+	public boolean isRunning() {
+		return running;
+	}
+
+	public void setRunning(boolean running) {
+		this.running = running;
+	}
+
 	public BeerBottleLoader(Resources resources) {
 		this.resources = resources;
 		bottles = new ArrayList<BeerBottle>();
@@ -36,8 +44,9 @@ public class BeerBottleLoader extends Thread {
 	@Override
 	public void run() {
 		load();
-		Log.d("Beer", "Beer" + "Bottles loaded");
-		running = false;
+		Log.d("Beer", "Beer" + " Bottles loaded");
+
+		setRunning(false);
 	}
 
 	public void load() {
@@ -97,7 +106,7 @@ public class BeerBottleLoader extends Thread {
 	}
 
 	public void kill() {
-		running = false;
+		setRunning(false);
 	}
 
 }

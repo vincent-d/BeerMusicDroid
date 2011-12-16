@@ -3,27 +3,29 @@ package eu.silvere;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 public class BeerMainActivity extends Activity {
 
 	private BeerBottleLoader mBeerBottleLoader;
+	private ProgressBar mProgressCircle;
+	private Button mLaunchButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.beer_main_activity_view);
-
 		mBeerBottleLoader = new BeerBottleLoader(getResources());
-		mBeerBottleLoader.start();
-		Log.d("Beer", "Beer" + "Loading bottles");
 
-		Button mLaunchButton = (Button) findViewById(R.id.launch);
+		setContentView(R.layout.beer_main_activity_view);
+		mProgressCircle = (ProgressBar) findViewById(R.id.progressBar1);
+		mLaunchButton = (Button) findViewById(R.id.launch);
 
 		mLaunchButton.setOnClickListener(new View.OnClickListener() {
 			public void onClick(View v) {
@@ -40,6 +42,41 @@ public class BeerMainActivity extends Activity {
 				ctx.startActivity(intent);
 			}
 		});
+
+		Log.d("Beer", "Beer" + "Loading bottles");
+		new ProgressAsyncTask().execute();
+
+	}
+
+	public class ProgressAsyncTask extends AsyncTask<Void, Void, Void> {
+
+		protected void onPreExecute() {
+			mProgressCircle.setVisibility(View.VISIBLE);
+			mLaunchButton.setClickable(false);
+			Log.d("Beer", "Beer Start loading task");
+		}
+
+		protected Void doInBackground(Void... params) {
+
+			mBeerBottleLoader.start();
+
+			while (mBeerBottleLoader.isRunning())
+				;
+			Log.d("Beer", "Beer  --- Stop loading task");
+			return null;
+		}
+
+		protected void onPostExecute(Void result) {
+			mProgressCircle.setVisibility(View.GONE);
+			mLaunchButton.setClickable(true);
+			Log.d("Beer", "Beer Stop loading task");
+		}
+
+		protected void onCancelled() {
+			super.onCancelled();
+			mBeerBottleLoader.kill();
+		}
+
 	}
 
 }

@@ -11,8 +11,9 @@ import android.widget.TextView;
 
 public class BeerSoundActivity extends Activity {
 
-	private TextView tv;
-	private ProgressBar analyzeProgresBar;
+	private TextView mTextTitle;
+	private TextView mTextResult;
+	private ProgressBar mAnalyzeProgresBar;
 	private Button mLaunchButton;
 
 	private BeerSoundAnalyzer mBeerSoundAnalyzer;
@@ -39,12 +40,15 @@ public class BeerSoundActivity extends Activity {
 		BeerBottle beerBottle = (BeerBottle) bundle.getParcelable("bottle");
 		mBeerSoundAnalyzer.setBeerBottle(beerBottle);
 
-		tv = (TextView) findViewById(R.id.text);
-		tv.setText(mBeerSoundAnalyzer.getBeerBottle().getName() + " "
+		mTextTitle = (TextView) findViewById(R.id.textTitle);
+		mTextTitle.setText(mBeerSoundAnalyzer.getBeerBottle().getName() + " "
 				+ mBeerSoundAnalyzer.getBeerBottle().getDescription());
 
-		analyzeProgresBar = (ProgressBar) findViewById(R.id.analyzingProgressBar);
-		analyzeProgresBar.setMax(3);
+		mTextResult = (TextView) findViewById(R.id.textResult);
+		mTextResult.setText("");
+
+		mAnalyzeProgresBar = (ProgressBar) findViewById(R.id.analyzingProgressBar);
+		mAnalyzeProgresBar.setMax(3);
 
 		mLaunchButton = (Button) findViewById(R.id.button);
 
@@ -68,8 +72,8 @@ public class BeerSoundActivity extends Activity {
 
 		@Override
 		protected void onPreExecute() {
-			analyzeProgresBar.setProgress(0);
-			analyzeProgresBar.setVisibility(View.VISIBLE);
+			mAnalyzeProgresBar.setProgress(0);
+			mAnalyzeProgresBar.setVisibility(View.VISIBLE);
 			mLaunchButton.setEnabled(false);
 		}
 
@@ -87,14 +91,14 @@ public class BeerSoundActivity extends Activity {
 
 		@Override
 		protected void onProgressUpdate(Integer... values) {
-			analyzeProgresBar.setProgress(values[0]);
+			mAnalyzeProgresBar.setProgress(values[0]);
 		}
 
 		@Override
 		protected void onPostExecute(Float result) {
-			analyzeProgresBar.setVisibility(View.INVISIBLE);
-			tv.setText("Hello, " + mBeerSoundAnalyzer.getBeerBottle().getName() + " " + result
-					+ " Hz " + mVol + " mL " + mNote);
+			mAnalyzeProgresBar.setVisibility(View.INVISIBLE);
+			mTextResult.setText("Hello, " + mBeerSoundAnalyzer.getBeerBottle().getName() + " "
+					+ result + " Hz " + mVol + " mL " + mNote);
 			mLaunchButton.setEnabled(true);
 		}
 
